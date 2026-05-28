@@ -28,6 +28,7 @@ jobs:
         run: az acr login --name ${{ secrets.ACR_NAME }}
 
       - name: Build and push image to ACR
+        working-directory: ./src
         run: |
           az acr build \
             --registry ${{ secrets.ACR_NAME }} \
@@ -36,7 +37,7 @@ jobs:
             --image ${{ env.IMAGE_NAME }}:latest \
             --platform linux/amd64 \
             --file Dockerfile \
-            ./src
+            .
 
       - name: Deploy image to Container App
         run: |
